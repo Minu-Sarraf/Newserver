@@ -104,6 +104,7 @@ public class Loaderlistview extends Fragment implements LoaderManager.LoaderCall
                     , c.getString(c.getColumnIndex(Dbase.colm3))));
             adapter.refresh(list);
         } while (c.moveToNext());
+
         c.close();
 
     }
@@ -112,5 +113,8 @@ public class Loaderlistview extends Fragment implements LoaderManager.LoaderCall
     public void onLoaderReset(Loader<Cursor> loader) {
         //  adapter.swapCursor(null);
 
+    }
+    public void refreshloader(){
+       getLoaderManager().restartLoader(0,null,this);
     }
 }

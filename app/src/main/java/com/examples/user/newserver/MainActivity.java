@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 import static android.app.PendingIntent.getActivity;
 
-public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
+public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener, UIcallback {
     private AppBarLayout appBarLayout;
 
 
@@ -83,22 +83,35 @@ public class MainActivity extends AppCompatActivity implements AppBarLayout.OnOf
 
     }
 
-    public void run123() {
-//Thread th=new Thread(){
-   /* public void run() {
-
-        Httplistener.listenerbtn();
-        new Loaderlistview();
-    }
-};*/
-
-       // th.start();
-
-        //progreeslistner();
-        Listner2.listener();
-        Httplistener.listenerbtn();
-        new Loaderlistview();
+    /*@Override
+    public void update() {
+        Loaderlistview fragment = (Loaderlistview) getFragmentManager().findFragmentById(R.id.table1);
+        fragment.refreshloader();
+        //  new Loaderlistview();
         mswipe.setRefreshing(false);
+    }
+*/
+
+
+    @Override
+    public void update2(String loadertype) {
+        if(loadertype=="listview"){
+        Loaderlistview fragment1 = (Loaderlistview) getFragmentManager().findFragmentById(R.id.table1);
+        fragment1.refreshloader();}
+        else if(loadertype=="gridview"){
+            Loadergridview fragment2 = (Loadergridview) getFragmentManager().findFragmentById(R.id.table2);
+            fragment2.refreshloader();
+        }
+        //  new Loaderlistview();
+        mswipe.setRefreshing(false);
+    }
+
+
+    public void run123() {
+
+        Listner2.listener(this);
+        Httplistener.listenerbtn(this);
+
     }
 
     @Override

@@ -102,26 +102,28 @@ public class Loadergridview extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor c) {
         list2.clear();
-         c.moveToFirst();
+        c.moveToFirst();
+        if (c.getCount() > 0) {
+            do {
 
-          do{
 
+                list2.add(new Datalist2(
+                        c.getString(c.getColumnIndex(Dbase.description))
+                        , c.getString(c.getColumnIndex(Dbase.url))));
 
-         list2.add(new Datalist2(
-                 c.getString(c.getColumnIndex(Dbase.description))
-                 , c.getString(c.getColumnIndex(Dbase.url))));
-         adapter.refresh2(list2);
-           // adapter.refresh2(list2);*/
-         Log.e("table2", list2.get(0).getDescription());
-          } while (c.moveToNext());
+                // adapter.refresh2(list2);*/
+              //  Log.e("table2", list2.get(0).getDescription());
+            } while (c.moveToNext());
+            adapter.refresh2(list2);
+            c.close();
 
-         c.close();
-
+        }
     }
-
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        //  adapter.swapCursor(null);
-
+        //  adapter.swapCursor(null)
+    }
+    public void refreshloader(){
+        getLoaderManager().restartLoader(0,null,this);
     }
 }

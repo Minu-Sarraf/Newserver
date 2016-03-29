@@ -15,8 +15,8 @@ public class App extends Application {
     public void onCreate() {
     super.onCreate();
     this.mContext = getApplicationContext();
-    Httplistener.listenerbtn();
-    Listner2.listener();
+    Httplistener.listenerbtn(null);
+    Listner2.listener(null);
 
    // Httplistener.listenertop();
 

@@ -9,6 +9,7 @@ import com.examples.user.newserver.DataHandler.Jsonmodel2;
 import com.examples.user.newserver.DataHandler.Jsonparser;
 import com.examples.user.newserver.Debug;
 import com.examples.user.newserver.InsertdatatoDb;
+import com.examples.user.newserver.UIcallback;
 
 import org.json.JSONException;
 
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  */
 public class Listner2 {
 
-    public static void listener() {
+    public static void listener(final UIcallback uIcallback) {
 
         HttpRequest mHttpRequest;
         mHttpRequest = new HttpRequest(Constants.URLgridcable, null);
@@ -34,8 +35,9 @@ public class Listner2 {
                     ArrayList<Jsonmodel2> output = null;
                     try {
                         output = Jsonparser.parse2(result);
-                        //Log.e("parse2", output.get(0).getDescription());
+                        //
                         InsertdatatoDb.top(output, App.getContext());
+                       // Log.e("parse2", output.get(0).getDescription());
                         //Dataloaderbottom db=new Dataloaderbottom();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -45,6 +47,20 @@ public class Listner2 {
 
             }
         });
+        mHttpRequest.setOnResultsListener(new HttpRequest.OnResultsListener()
+
+                                          {
+                                              @Override
+                                              public void updateUI(HttpRequest.Status status, String result) throws JSONException {
+                                                  Debug.v("Got status " + status);
+                                                  if (uIcallback != null) {
+                                                      uIcallback.update2("gridview");
+                                                  }
+
+                                              }
+                                          }
+
+        );
         mHttpRequest.execute();
     }
 }

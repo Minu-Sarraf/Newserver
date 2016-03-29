@@ -89,8 +89,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         ImageView gridimage = (ImageView) holder.view.findViewById(R.id.imageView2);
         final ProgressBar progressBar = (ProgressBar) holder.view.findViewById(R.id.progressBar1);
         progressBar.setVisibility(View.VISIBLE);
-       // final ProgressBar gridprogressBar = (ProgressBar) holder.view.findViewById(R.id.progressBar2);
-       // gridprogressBar.setVisibility(View.VISIBLE);
+        // final ProgressBar gridprogressBar = (ProgressBar) holder.view.findViewById(R.id.progressBar2);
+        // gridprogressBar.setVisibility(View.VISIBLE);
         title.setText((Html.fromHtml((list).get(position).getTitle())));
 
 
@@ -109,21 +109,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                     }
                 });
-      /*  Picasso.with(mcontext).load((list2).get(position).getImageurl())
-                .transform(new picasoround12()).resize(600, 200).centerInside()
-                .into(gridimage, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        gridprogressBar.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError() {
-                        // TODO Auto-generated method stub
-
-                    }
-                });*/
-
     }
 
     @Override

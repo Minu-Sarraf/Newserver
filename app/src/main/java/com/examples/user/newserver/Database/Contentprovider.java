@@ -58,7 +58,15 @@ public class Contentprovider extends ContentProvider {
         return true;
 
     }
+public void testquery(){
+    Cursor c;
+    // int uriType = sURIMatcher.match(uri);
+    database = db.getReadableDatabase();
+    c = database.rawQuery("select _id, text, image from Urlinfo group by text order by _id", null);
+    String a = DatabaseUtils.dumpCursorToString(c);
+    Debug.v("check" + a);
 
+}
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
@@ -104,6 +112,7 @@ public class Contentprovider extends ContentProvider {
             default:
                 throw new SQLException("Failed to insert row into " + uri);
         }
+       // testquery();
         getContext().getContentResolver().notifyChange(uri, null);
         return null;
 
@@ -111,6 +120,10 @@ public class Contentprovider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
+        database = db.getWritableDatabase();
+      //  db.delete(Table_Name, Key_value + " = ?",
+              //  new String[] { value });
+      //  db.close();
 
         // database.delete(db.Tablename, selection, selectionArgs);
         // String[] whereArgs = new String[] { String.valueOf(selectionArgs) };

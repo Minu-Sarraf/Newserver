@@ -17,40 +17,46 @@ import java.util.ArrayList;
  */
 public class Httplistener {
     static HttpRequest mHttpRequest;
-  static String URL2 = "http://202.79.36.225/jsttest.php/test2.php";
-//  static String URL2 = "http://192.168.100.16/jsttest.php/test2.php";
-    public static void listenerbtn() {
+
+    public static void listenerbtn(final UIcallback uIcallback) {
         // mHttpRequest = new HttpRequest(URL2, null);
         mHttpRequest = new HttpRequest(Constants.URLlistcable, null);
         mHttpRequest.appendAppInfo(true);
+        mHttpRequest.setOnBackgroundWorkListener(new HttpRequest.OnBackgroundWorkListener() {
+            @Override
+            public void performWork(HttpRequest.Status status, String result) {
+                if (status == HttpRequest.Status.HTTP_SUCCESS) {
+                    Debug.v(result);
+                    ArrayList<JsonModel> output = null;
+                    //  ArrayList<Jsonmodel2> output1 = null;
+                    try {
+                        output = Jsonparser.parse1(result);
+                        //  output2 = Jsonparser.parse2(result);
+                        InsertdatatoDb.bottom(output, App.getContext());
+                        //Dataloaderbottom db=new Dataloaderbottom();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        mHttpRequest.setOnResultsListener(new HttpRequest.OnResultsListener()
 
-                mHttpRequest.setOnResultsListener(new HttpRequest.OnResultsListener()
-
-                                                  {
-                                                      @Override
-                                                      public void updateUI(HttpRequest.Status status, String result) throws JSONException {
-                                                          Debug.v("Got status " + status);
-                                                          if (status == HttpRequest.Status.HTTP_SUCCESS) {
-                                                               Debug.v(result);
-                                                              ArrayList<JsonModel> output = null;
-                                                            //  ArrayList<Jsonmodel2> output1 = null;
-                                                              try {
-                                                                  output = Jsonparser.parse1(result);
-                                                                  //  output2 = Jsonparser.parse2(result);
-                                                                  InsertdatatoDb.bottom(output, App.getContext());
-                                                                  //Dataloaderbottom db=new Dataloaderbottom();
-                                                              } catch (Exception e) {
-                                                                  e.printStackTrace();
-                                                              }
-                                                          }
-
-
-                                                      }
+                                          {
+                                              @Override
+                                              public void updateUI(HttpRequest.Status status, String result) throws JSONException {
+                                                  Debug.v("Got status " + status);
+                                                  if (uIcallback != null) {
+                                                      uIcallback.update2("listview");
                                                   }
 
-                );
+                                              }
+                                          }
+
+        );
         mHttpRequest.execute();
     }
+
     public void progreeslistner() {
         mHttpRequest.setOnProgressListener(new HttpRequest.OnProgressListener() {
                                                @Override
@@ -65,7 +71,7 @@ public class Httplistener {
                                                    if (done) {
                                                        // findViewById(R.id.progressbar1).setVisibility(View.GONE);
                                                        //progressBar.setVisibility(View.GONE);
-                                                     //  Toast.makeText(App.getContext(), "Loading.......progress status: ", Toast.LENGTH_LONG).show();
+                                                       //  Toast.makeText(App.getContext(), "Loading.......progress status: ", Toast.LENGTH_LONG).show();
                                                        Log.i("progress", "Done loading");
                                                    }
                                                }
